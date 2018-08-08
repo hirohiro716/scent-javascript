@@ -82,7 +82,7 @@ $scent.postForm = function(form, successFunction, errorFunction) {
  * 
  * @param {Object} values {inputの名前:値}の連想配列
  */
-$scent.setValues(values) {
+$scent.setValues = function(values) {
     $.each(values, function(name, value) {
         $scent.setValue($('[name="' + name + '"]'), value);
     }
@@ -94,7 +94,7 @@ $scent.setValues(values) {
  * @param {Element} inputElement セットする対象のinput
  * @param {string} value 値
  */
-$scent.setValue(inputElement, value) {
+$scent.setValue = function(inputElement, value) {
     switch ($(inputElement).attr('type')) {
     case 'checkbox':
     case 'radio':
