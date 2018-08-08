@@ -85,7 +85,7 @@ $scent.postForm = function(form, successFunction, errorFunction) {
 $scent.setValues = function(values) {
     $.each(values, function(name, value) {
         $scent.setValue($('[name="' + name + '"]'), value);
-    }
+    });
 }
 
 /**
