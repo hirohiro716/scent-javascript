@@ -15,9 +15,48 @@ if (typeof $ === "undefined") {
  * @param {function} onloadFunction
  */
 $scent = function(onloadFunction) {
-    window.onload = function() {
+	$(window).on("load", function() {
         onloadFunction();
-    }
+    });
+}
+
+/**
+ * windowの幅にCSSプロパティを同期する.
+ */
+$scent.bindWindowWidth = function(element, cssProperty) {
+	var process = function() {
+		$(element).css(cssProperty, $(window).width());
+	}
+	process();
+	$(window).on("resize", process);
+}
+
+/**
+ * windowの高さにCSSプロパティを同期する.
+ */
+$scent.bindWindowHeight = function(element, cssProperty) {
+	var process = function() {
+		$(element).css(cssProperty, $(window).height());
+	}
+	process();
+	$(window).on("resize", process);
+}
+
+/**
+ * windowの幅と高さを比較して大きい方に画像サイズを合わせる.
+ */
+$scent.adjustBackgroundImage = function(element, url) {
+	$(element).css("background-image", "url('" + url + "')");
+	$(element).css("background-repeat", "no-repeat");
+	var process = function() {
+		if ($(window).width() > $(window).height()) {
+			$(element).css("background-size", "100% auto");
+		} else {
+			$(element).css("background-size", "auto 100%");
+		}
+	}
+	process();
+	$(window).on("resize", process);
 }
 
 /**
@@ -33,7 +72,7 @@ $scent.geolocation = function(successFunction, errorFunction) {
     var innerSuccessFunction = function(position) {
         position.coords.parent = position;
         successFunction(position.coords);
-    };
+    }
     navigator.geolocation.getCurrentPosition(innerSuccessFunction, errorFunction, {enableHighAccuracy: true, timeout: 30000});
 }
 
@@ -47,9 +86,9 @@ $scent.geolocation = function(successFunction, errorFunction) {
  */
 $scent.post = function(values, url, successFunction, errorFunction) {
     $.ajax({
-        type: 'post',
+        type: "post",
         url: url,
-        dataType: 'json',
+        dataType: "json",
         data: values,
         success: function(result) {
             successFunction(result);
@@ -69,7 +108,7 @@ $scent.post = function(values, url, successFunction, errorFunction) {
  */
 $scent.postForm = function(form, successFunction, errorFunction) {
     var values = $(form).serializeArray();
-    var url = $(form).attr('action');
+    var url = $(form).attr("action");
     $scent.post(values, url, successFunction, errorFunction);
 }
 
@@ -80,7 +119,7 @@ $scent.postForm = function(form, successFunction, errorFunction) {
  */
 $scent.setValues = function(values) {
     $.each(values, function(name, value) {
-        $scent.setValue($('[name="' + name + '"]'), value);
+        $scent.setValue($("[name='" + name + "']"), value);
     });
 }
 
@@ -91,9 +130,9 @@ $scent.setValues = function(values) {
  * @param {string} value 値
  */
 $scent.setValue = function(inputElement, value) {
-    switch ($(inputElement).attr('type')) {
-    case 'checkbox':
-    case 'radio':
+    switch ($(inputElement).attr("type")) {
+    case "checkbox":
+    case "radio":
         $(inputElement).val([value]);
         break;
     default:
@@ -101,3 +140,37 @@ $scent.setValue = function(inputElement, value) {
         break;
     }
 }
+
+/**
+ * すべてのinputのタイトルに対してエラーメッセージと赤枠をセットする.
+ * 
+ * @param {Object} errorMessages {inputの名前:エラーメッセージ}の連想配列
+ */
+$scent.setErrors = function(errorMessages) {
+	$.each(errorMessages, function(name, errorMessage) {
+		$scent.setError($("[name='" + name + "']"), errorMessage);
+	});
+}
+
+/**
+ * inputタイトルに対してエラーメッセージと赤枠をセットする.
+ * 
+ * @param {Element} inputElement セットする対象のinput
+ * @param {string} errorMessage エラーメッセージ
+ */
+$scent.setError = function(inputElement, errorMessage) {
+    switch ($(inputElement).attr("type")) {
+    case "checkbox":
+    case "radio":
+        break;
+    default:
+    	$(inputElement).attr("title", errorMessage);
+    	$(inputElement).css("box-shadow", "0 0 2px 1px crimson")
+        break;
+    }
+}
+
+
+
+
+

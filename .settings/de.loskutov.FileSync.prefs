@@ -1,7 +1,6 @@
 WARNING=DO NOT MODIFY THIS FILE IF YOU DON'T UNDERSTAND
-defaultDestination=/home/hiro/Documents/docker/wappli_timecard/test/js
+defaultDestination=
 defaultVariables=
 eclipse.preferences.version=1
 includeTeamPrivateFiles=false
-map|0=src|,|,|,|,
 useCurrentDateForDestinationFiles=false
