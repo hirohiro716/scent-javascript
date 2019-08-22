@@ -170,7 +170,35 @@ $scent.setError = function(inputElement, errorMessage) {
     }
 }
 
-
-
-
-
+/**
+ * ロングタップのイベントを追加する.
+ * 
+ * @param {string}
+ *            selector 追加する対象を選ぶためのセレクタ
+ * @param {integer}
+ *            fireMillisecond 処理が実行されるまでの時間(ミリ秒)
+ * @param {function}
+ *            onloadFunction 処理内容
+ */
+$scent.setLongtapEventListener = function(selector, fireMillisecond,
+		onLongtapFunction) {
+	var timeout;
+	$(document).on("touchstart", selector, function(event) {
+		sourceElement = $(this);
+		timeout = window.setTimeout(function() {
+			window.clearTimeout(timeout);
+			onLongtapFunction(sourceElement);
+	        event.preventDefault();
+	        event.stopImmediatePropagation();
+		}, fireMillisecond);
+	});
+	$(document).on("touchend", selector, function(event) {
+		window.clearTimeout(timeout);
+	});
+	$(document).on("touchmove", selector, function(event) {
+		window.clearTimeout(timeout);
+	});
+	$(document).on("contextmenu", selector, function(event) {
+        return false;
+    });
+}
