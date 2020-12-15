@@ -15,7 +15,7 @@ if (typeof $ === "undefined") {
  * @param {function} onloadFunction
  */
 $scent = function(onloadFunction) {
-	$(window).on("load", function() {
+    $(window).on("load", function() {
         onloadFunction();
     });
 }
@@ -24,39 +24,39 @@ $scent = function(onloadFunction) {
  * windowの幅にCSSプロパティを同期する.
  */
 $scent.bindWindowWidth = function(element, cssProperty) {
-	var process = function() {
-		$(element).css(cssProperty, $(window).width());
-	}
-	process();
-	$(window).on("resize", process);
+    var process = function() {
+        $(element).css(cssProperty, $(window).width());
+    }
+    process();
+    $(window).on("resize", process);
 }
 
 /**
  * windowの高さにCSSプロパティを同期する.
  */
 $scent.bindWindowHeight = function(element, cssProperty) {
-	var process = function() {
-		$(element).css(cssProperty, $(window).height());
-	}
-	process();
-	$(window).on("resize", process);
+    var process = function() {
+        $(element).css(cssProperty, $(window).height());
+    }
+    process();
+    $(window).on("resize", process);
 }
 
 /**
  * windowの幅と高さを比較して大きい方に画像サイズを合わせる.
  */
 $scent.adjustBackgroundImage = function(element, url) {
-	$(element).css("background-image", "url('" + url + "')");
-	$(element).css("background-repeat", "no-repeat");
-	var process = function() {
-		if ($(window).width() > $(window).height()) {
-			$(element).css("background-size", "100% auto");
-		} else {
-			$(element).css("background-size", "auto 100%");
-		}
-	}
-	process();
-	$(window).on("resize", process);
+    $(element).css("background-image", "url('" + url + "')");
+    $(element).css("background-repeat", "no-repeat");
+    var process = function() {
+        if ($(window).width() > $(window).height()) {
+            $(element).css("background-size", "100% auto");
+        } else {
+            $(element).css("background-size", "auto 100%");
+        }
+    }
+    process();
+    $(window).on("resize", process);
 }
 
 /**
@@ -137,7 +137,7 @@ $scent.setValue = function(inputElement, value) {
         break;
     default:
         $(inputElement).val(value);
-        break;
+    break;
     }
 }
 
@@ -147,9 +147,9 @@ $scent.setValue = function(inputElement, value) {
  * @param {Object} errorMessages {inputの名前:エラーメッセージ}の連想配列
  */
 $scent.setErrors = function(errorMessages) {
-	$.each(errorMessages, function(name, errorMessage) {
-		$scent.setError($("[name='" + name + "']"), errorMessage);
-	});
+    $.each(errorMessages, function(name, errorMessage) {
+        $scent.setError($("[name='" + name + "']"), errorMessage);
+    });
 }
 
 /**
@@ -164,8 +164,8 @@ $scent.setError = function(inputElement, errorMessage) {
     case "radio":
         break;
     default:
-    	$(inputElement).attr("title", errorMessage);
-    	$(inputElement).css("box-shadow", "0 0 2px 1px crimson")
+        $(inputElement).attr("title", errorMessage);
+        $(inputElement).css("box-shadow", "0 0 2px 1px crimson")
         break;
     }
 }
@@ -180,25 +180,24 @@ $scent.setError = function(inputElement, errorMessage) {
  * @param {function}
  *            onloadFunction 処理内容
  */
-$scent.setLongtapEventListener = function(selector, fireMillisecond,
-		onLongtapFunction) {
-	var timeout;
-	$(document).on("touchstart", selector, function(event) {
-		sourceElement = $(this);
-		timeout = window.setTimeout(function() {
-			window.clearTimeout(timeout);
-			onLongtapFunction(sourceElement);
-	        event.preventDefault();
-	        event.stopImmediatePropagation();
-		}, fireMillisecond);
-	});
-	$(document).on("touchend", selector, function(event) {
-		window.clearTimeout(timeout);
-	});
-	$(document).on("touchmove", selector, function(event) {
-		window.clearTimeout(timeout);
-	});
-	$(document).on("contextmenu", selector, function(event) {
+$scent.setLongtapEventListener = function(selector, fireMillisecond, onLongtapFunction) {
+    var timeout;
+    $(document).on("touchstart", selector, function(event) {
+        sourceElement = $(this);
+        timeout = window.setTimeout(function() {
+            window.clearTimeout(timeout);
+            onLongtapFunction(sourceElement);
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }, fireMillisecond);
+    });
+    $(document).on("touchend", selector, function(event) {
+        window.clearTimeout(timeout);
+    });
+    $(document).on("touchmove", selector, function(event) {
+        window.clearTimeout(timeout);
+    });
+    $(document).on("contextmenu", selector, function(event) {
         return false;
     });
 }
@@ -207,21 +206,21 @@ $scent.setLongtapEventListener = function(selector, fireMillisecond,
  * ページ内ジャンプのaに対してぬるぬるスクロールを有効にする。
  * 
  * @param {Element} aElement 有効にする対象のa
- * @param {number} duration アニメーションの時間の長さ
+ * @param {integer} duration アニメーションの時間の長さ(ミリ秒)
  */
 $scent.enableSmoothScroll = function(aElement, duration) {
     $(aElement).click(function() {
-	if (this.hash !== undefined && this.hash.slice(0, 1) == '#') {
-	    var anchor = this.hash.slice(1);
-	    var target = $('#' + anchor);
-	    if (target === undefined) {
-		var target = $('[name=' + anchor + ']');
-	    }
-	    if (target !== undefined) {
-		$('html, body').animate({scrollTop: target.offset().top}, {duration: duration});
-		return false;
-	    }
-	}
+        if (this.hash !== undefined && this.hash.slice(0, 1) == '#') {
+            var anchor = this.hash.slice(1);
+            var target = $('#' + anchor);
+            if (target === undefined) {
+                var target = $('[name=' + anchor + ']');
+            }
+            if (target !== undefined) {
+                $('html, body').animate({scrollTop: target.offset().top}, {duration: duration});
+                return false;
+            }
+        }
     });
 }
 
