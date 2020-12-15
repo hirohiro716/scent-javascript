@@ -1,5 +1,5 @@
 /**
- * Scentライブラリ.
+ * Scentライブラリ。
  * 
  * @author hiro
  * @version 1.0.0
@@ -10,7 +10,7 @@ if (typeof $ === "undefined") {
 }
 
 /**
- * windowの読み込みが完了した際に実行する.
+ * windowの読み込みが完了した際に実行する。
  * 
  * @param {function} onloadFunction
  */
@@ -21,7 +21,7 @@ $scent = function(onloadFunction) {
 }
 
 /**
- * windowの幅にCSSプロパティを同期する.
+ * windowの幅にCSSプロパティを同期する。
  */
 $scent.bindWindowWidth = function(element, cssProperty) {
     var process = function() {
@@ -32,7 +32,7 @@ $scent.bindWindowWidth = function(element, cssProperty) {
 }
 
 /**
- * windowの高さにCSSプロパティを同期する.
+ * windowの高さにCSSプロパティを同期する。
  */
 $scent.bindWindowHeight = function(element, cssProperty) {
     var process = function() {
@@ -43,7 +43,7 @@ $scent.bindWindowHeight = function(element, cssProperty) {
 }
 
 /**
- * windowの幅と高さを比較して大きい方に画像サイズを合わせる.
+ * windowの幅と高さを比較して大きい方に画像サイズを合わせる。
  */
 $scent.adjustBackgroundImage = function(element, url) {
     $(element).css("background-image", "url('" + url + "')");
@@ -60,7 +60,7 @@ $scent.adjustBackgroundImage = function(element, url) {
 }
 
 /**
- * 位置情報を取得する.
+ * 位置情報を取得する。
  * 
  * @param {function} successFunction(coords) 成功時のコールバック(第一引数に位置情報が入る)
  * @param {function} errorFunction(error) 失敗時のコールバック(第一引数にエラー情報が入る)
@@ -77,7 +77,7 @@ $scent.geolocation = function(successFunction, errorFunction) {
 }
 
 /**
- * AjaxでPOST送信して結果を処理する.
+ * AjaxでPOST送信して結果を処理する。
  * 
  * @param {Object} values 送信する連想配列オブジェクト
  * @param {string} url 送信先URL
@@ -100,7 +100,7 @@ $scent.post = function(values, url, successFunction, errorFunction) {
 }
 
 /**
- * Ajaxでformのinputをすべてaction属性のURLに対してPOST送信して結果を処理する.
+ * Ajaxでformのinputをすべてaction属性のURLに対してPOST送信して結果を処理する。
  * 
  * @param {Element} form 送信するform要素またはjQueryオブジェクト
  * @param {function} successFunction(result) 成功時のコールバック(第一引数に送信先から返却された情報が入る)
@@ -113,7 +113,7 @@ $scent.postForm = function(form, successFunction, errorFunction) {
 }
 
 /**
- * すべてのinputに対して値をセットする.
+ * すべてのinputに対して値をセットする。
  * 
  * @param {Object} values {inputの名前:値}の連想配列
  */
@@ -124,7 +124,7 @@ $scent.setValues = function(values) {
 }
 
 /**
- * inputに対して値をセットする.
+ * inputに対して値をセットする。
  * 
  * @param {Element} inputElement セットする対象のinput
  * @param {string} value 値
@@ -142,7 +142,7 @@ $scent.setValue = function(inputElement, value) {
 }
 
 /**
- * すべてのinputのタイトルに対してエラーメッセージと赤枠をセットする.
+ * すべてのinputのタイトルに対してエラーメッセージと赤枠をセットする。
  * 
  * @param {Object} errorMessages {inputの名前:エラーメッセージ}の連想配列
  */
@@ -153,7 +153,7 @@ $scent.setErrors = function(errorMessages) {
 }
 
 /**
- * inputタイトルに対してエラーメッセージと赤枠をセットする.
+ * inputタイトルに対してエラーメッセージと赤枠をセットする。
  * 
  * @param {Element} inputElement セットする対象のinput
  * @param {string} errorMessage エラーメッセージ
@@ -171,14 +171,11 @@ $scent.setError = function(inputElement, errorMessage) {
 }
 
 /**
- * ロングタップのイベントを追加する.
+ * ロングタップのイベントを追加する。
  * 
- * @param {string}
- *            selector 追加する対象を選ぶためのセレクタ
- * @param {integer}
- *            fireMillisecond 処理が実行されるまでの時間(ミリ秒)
- * @param {function}
- *            onloadFunction 処理内容
+ * @param {string} selector 追加する対象を選ぶためのセレクタ
+ * @param {integer} fireMillisecond 処理が実行されるまでの時間(ミリ秒)
+ * @param {function} onloadFunction 処理内容
  */
 $scent.setLongtapEventListener = function(selector, fireMillisecond, onLongtapFunction) {
     var timeout;
