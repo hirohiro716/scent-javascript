@@ -202,3 +202,26 @@ $scent.setLongtapEventListener = function(selector, fireMillisecond,
         return false;
     });
 }
+
+/**
+ * ページ内ジャンプのaに対してぬるぬるスクロールを有効にする。
+ * 
+ * @param {Element} aElement 有効にする対象のa
+ * @param {number} duration アニメーションの時間の長さ
+ */
+$scent.enableSmoothScroll = function(aElement, duration) {
+    $(aElement).click(function() {
+	if (this.hash !== undefined && this.hash.slice(0, 1) == '#') {
+	    var anchor = this.hash.slice(1);
+	    var target = $('#' + anchor);
+	    if (target === undefined) {
+		var target = $('[name=' + anchor + ']');
+	    }
+	    if (target !== undefined) {
+		$('html, body').animate({scrollTop: target.offset().top}, {duration: duration});
+		return false;
+	    }
+	}
+    });
+}
+
