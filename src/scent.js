@@ -24,7 +24,7 @@ $scent = function(onloadFunction) {
  * windowの幅にCSSプロパティを同期する。
  */
 $scent.bindWindowWidth = function(element, cssProperty) {
-    var process = function() {
+    let process = function() {
         $(element).css(cssProperty, $(window).width());
     }
     process();
@@ -35,7 +35,7 @@ $scent.bindWindowWidth = function(element, cssProperty) {
  * windowの高さにCSSプロパティを同期する。
  */
 $scent.bindWindowHeight = function(element, cssProperty) {
-    var process = function() {
+    let process = function() {
         $(element).css(cssProperty, $(window).height());
     }
     process();
@@ -48,7 +48,7 @@ $scent.bindWindowHeight = function(element, cssProperty) {
 $scent.adjustBackgroundImage = function(element, url) {
     $(element).css("background-image", "url('" + url + "')");
     $(element).css("background-repeat", "no-repeat");
-    var process = function() {
+    let process = function() {
         if ($(window).width() > $(window).height()) {
             $(element).css("background-size", "100% auto");
         } else {
@@ -69,7 +69,7 @@ $scent.geolocation = function(successFunction, errorFunction) {
     if (navigator.geolocation === undefined) {
         throw "Your device is not supported of geolocation.";
     }
-    var innerSuccessFunction = function(position) {
+    let innerSuccessFunction = function(position) {
         position.coords.parent = position;
         successFunction(position.coords);
     }
@@ -107,8 +107,8 @@ $scent.post = function(values, url, successFunction, errorFunction) {
  * @param {function} errorFunction(XMLHttpRequest, textStatus, errorThrown) 失敗時のコールバック(引数は$.ajaxのエラーコールバックに準ずる)
  */
 $scent.postForm = function(form, successFunction, errorFunction) {
-    var values = $(form).serializeArray();
-    var url = $(form).attr("action");
+    let values = $(form).serializeArray();
+    let url = $(form).attr("action");
     $scent.post(values, url, successFunction, errorFunction);
 }
 
@@ -178,7 +178,7 @@ $scent.setError = function(inputElement, errorMessage) {
  * @param {function} onloadFunction 処理内容
  */
 $scent.setLongtapEventListener = function(selector, fireMillisecond, onLongtapFunction) {
-    var timeout;
+    let timeout;
     $(document).on("touchstart", selector, function(event) {
         sourceElement = $(this);
         timeout = window.setTimeout(function() {
@@ -208,10 +208,10 @@ $scent.setLongtapEventListener = function(selector, fireMillisecond, onLongtapFu
 $scent.enableSmoothScroll = function(aElement, duration) {
     $(aElement).click(function() {
         if (this.hash !== undefined && this.hash.slice(0, 1) == '#') {
-            var anchor = this.hash.slice(1);
-            var target = $('#' + anchor);
+            let anchor = this.hash.slice(1);
+            let target = $('#' + anchor);
             if (target === undefined) {
-                var target = $('[name=' + anchor + ']');
+                target = $('[name=' + anchor + ']');
             }
             if (target !== undefined) {
                 $('html, body').animate({scrollTop: target.offset().top}, {duration: duration});
@@ -220,4 +220,3 @@ $scent.enableSmoothScroll = function(aElement, duration) {
         }
     });
 }
-
