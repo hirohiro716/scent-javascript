@@ -5,8 +5,8 @@
  * @version 1.0.0
  */
 
-if (typeof $ === "undefined") {
-    throw "jQuery is not defined";
+if (typeof $ === 'undefined') {
+    throw 'jQuery is not defined';
 }
 
 /**
@@ -15,7 +15,7 @@ if (typeof $ === "undefined") {
  * @param {function} onloadFunction
  */
 $scent = function(onloadFunction) {
-    $(window).on("load", function() {
+    $(window).on('load', function() {
         onloadFunction();
     });
 }
@@ -28,7 +28,7 @@ $scent.bindWindowWidth = function(element, cssProperty) {
         $(element).css(cssProperty, $(window).width());
     }
     process();
-    $(window).on("resize", process);
+    $(window).on('resize', process);
 }
 
 /**
@@ -39,24 +39,24 @@ $scent.bindWindowHeight = function(element, cssProperty) {
         $(element).css(cssProperty, $(window).height());
     }
     process();
-    $(window).on("resize", process);
+    $(window).on('resize', process);
 }
 
 /**
  * windowの幅と高さを比較して大きい方に画像サイズを合わせる。
  */
 $scent.adjustBackgroundImage = function(element, url) {
-    $(element).css("background-image", "url('" + url + "')");
-    $(element).css("background-repeat", "no-repeat");
+    $(element).css('background-image', 'url("' + url + '")');
+    $(element).css('background-repeat', 'no-repeat');
     let process = function() {
         if ($(window).width() > $(window).height()) {
-            $(element).css("background-size", "100% auto");
+            $(element).css('background-size', '100% auto');
         } else {
-            $(element).css("background-size", "auto 100%");
+            $(element).css('background-size', 'auto 100%');
         }
     }
     process();
-    $(window).on("resize", process);
+    $(window).on('resize', process);
 }
 
 /**
@@ -66,8 +66,8 @@ $scent.adjustBackgroundImage = function(element, url) {
  * @param {function} errorFunction(error) 失敗時のコールバック(第一引数にエラー情報が入る)
  */
 $scent.geolocation = function(successFunction, errorFunction) {
-    if (navigator.geolocation === undefined) {
-        throw "Your device is not supported of geolocation.";
+    if (typeof navigator.geolocation === 'undefined') {
+        throw 'Your device is not supported of geolocation.';
     }
     let innerSuccessFunction = function(position) {
         position.coords.parent = position;
@@ -86,9 +86,9 @@ $scent.geolocation = function(successFunction, errorFunction) {
  */
 $scent.post = function(values, url, successFunction, errorFunction) {
     $.ajax({
-        type: "post",
+        type: 'post',
         url: url,
-        dataType: "json",
+        dataType: 'json',
         data: values,
         success: function(result) {
             successFunction(result);
@@ -108,7 +108,7 @@ $scent.post = function(values, url, successFunction, errorFunction) {
  */
 $scent.postForm = function(form, successFunction, errorFunction) {
     let values = $(form).serializeArray();
-    let url = $(form).attr("action");
+    let url = $(form).attr('action');
     $scent.post(values, url, successFunction, errorFunction);
 }
 
@@ -119,7 +119,7 @@ $scent.postForm = function(form, successFunction, errorFunction) {
  */
 $scent.setValues = function(values) {
     $.each(values, function(name, value) {
-        $scent.setValue($("[name='" + name + "']"), value);
+        $scent.setValue($('[name="' + name + '"]'), value);
     });
 }
 
@@ -130,9 +130,9 @@ $scent.setValues = function(values) {
  * @param {string} value 値
  */
 $scent.setValue = function(inputElement, value) {
-    switch ($(inputElement).attr("type")) {
-    case "checkbox":
-    case "radio":
+    switch ($(inputElement).attr('type')) {
+    case 'checkbox':
+    case 'radio':
         $(inputElement).val([value]);
         break;
     default:
@@ -148,7 +148,7 @@ $scent.setValue = function(inputElement, value) {
  */
 $scent.setErrors = function(errorMessages) {
     $.each(errorMessages, function(name, errorMessage) {
-        $scent.setError($("[name='" + name + "']"), errorMessage);
+        $scent.setError($('[name="' + name + '"]'), errorMessage);
     });
 }
 
@@ -159,13 +159,13 @@ $scent.setErrors = function(errorMessages) {
  * @param {string} errorMessage エラーメッセージ
  */
 $scent.setError = function(inputElement, errorMessage) {
-    switch ($(inputElement).attr("type")) {
-    case "checkbox":
-    case "radio":
+    switch ($(inputElement).attr('type')) {
+    case 'checkbox':
+    case 'radio':
         break;
     default:
-        $(inputElement).attr("title", errorMessage);
-        $(inputElement).css("box-shadow", "0 0 2px 1px crimson")
+        $(inputElement).attr('title', errorMessage);
+        $(inputElement).css('box-shadow', '0 0 2px 1px crimson')
         break;
     }
 }
@@ -179,7 +179,7 @@ $scent.setError = function(inputElement, errorMessage) {
  */
 $scent.setLongtapEventListener = function(selector, fireMillisecond, onLongtapFunction) {
     let timeout;
-    $(document).on("touchstart", selector, function(event) {
+    $(document).on('touchstart', selector, function(event) {
         sourceElement = $(this);
         timeout = window.setTimeout(function() {
             window.clearTimeout(timeout);
@@ -188,15 +188,31 @@ $scent.setLongtapEventListener = function(selector, fireMillisecond, onLongtapFu
             event.stopImmediatePropagation();
         }, fireMillisecond);
     });
-    $(document).on("touchend", selector, function(event) {
+    $(document).on('touchend', selector, function(event) {
         window.clearTimeout(timeout);
     });
-    $(document).on("touchmove", selector, function(event) {
+    $(document).on('touchmove', selector, function(event) {
         window.clearTimeout(timeout);
     });
-    $(document).on("contextmenu", selector, function(event) {
+    $(document).on('contextmenu', selector, function(event) {
         return false;
     });
+}
+
+/**
+ * URLから相対URLを作成する。
+ * 
+ * @param {string} url 元となるURL
+ * @return {string} 相対URL
+ */
+$scent.makeRelativeURL = function(url) {
+    let relativeURL = url;
+    if (relativeURL.indexOf('http') == 0) {
+        relativeURL = relativeURL.replace('http://', '');
+        relativeURL = relativeURL.replace('https://', '');
+        relativeURL = relativeURL.slice(relativeURL.indexOf('/'));
+    }
+    return relativeURL;
 }
 
 /**
@@ -207,13 +223,16 @@ $scent.setLongtapEventListener = function(selector, fireMillisecond, onLongtapFu
  */
 $scent.enableSmoothScroll = function(aElement, duration) {
     $(aElement).click(function() {
-        if (this.hash !== undefined && this.hash.slice(0, 1) == '#') {
-            let anchor = this.hash.slice(1);
+        if (typeof this.hash !== 'undefined') {
+            let relativeURL = $scent.makeRelativeURL(window.location.href);
+            let anchor = $scent.makeRelativeURL(this.hash);
+            anchor = anchor.replace(relativeURL, '');
+            anchor = this.hash.slice(1);
             let target = $('#' + anchor);
-            if (target === undefined) {
+            if (typeof target === 'undefined') {
                 target = $('[name=' + anchor + ']');
             }
-            if (target !== undefined) {
+            if (typeof target !== 'undefined') {
                 $('html, body').animate({scrollTop: target.offset().top}, {duration: duration});
                 return false;
             }
