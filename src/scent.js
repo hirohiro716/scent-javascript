@@ -171,6 +171,16 @@ $scent.setError = function(inputElement, errorMessage) {
 }
 
 /**
+ * スマートフォンのズームを解除する。
+ */
+$scent.releaseZoomOfSmartPhone = function() {
+    let viewport = $('meta[name="viewport"]');
+    let content = viewport.attr('content');
+    viewport.attr('content', 'user-scalable=no');
+    viewport.attr('content', content);
+}
+
+/**
  * ロングタップのイベントを追加する。
  * 
  * @param {string} selector 追加する対象を選ぶためのセレクタ
@@ -220,8 +230,9 @@ $scent.makeRelativeURL = function(url) {
  * 
  * @param {Element} aElement 有効にする対象のa
  * @param {integer} duration アニメーションの時間の長さ(ミリ秒)
+ * @param {integer} offset オフセット
  */
-$scent.enableSmoothScroll = function(aElement, duration) {
+$scent.enableSmoothScroll = function(aElement, duration, offset = 0) {
     $(aElement).click(function() {
         if (typeof this.hash !== 'undefined') {
             let relativeURL = $scent.makeRelativeURL(window.location.href);
@@ -233,7 +244,7 @@ $scent.enableSmoothScroll = function(aElement, duration) {
                 target = $('[name=' + anchor + ']');
             }
             if (typeof target !== 'undefined') {
-                $('html, body').animate({scrollTop: target.offset().top}, {duration: duration});
+                $('html, body').animate({scrollTop: target.offset().top + offset}, {duration: duration});
                 return false;
             }
         }
