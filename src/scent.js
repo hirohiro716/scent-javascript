@@ -244,6 +244,7 @@ $scent.enableSmoothScroll = function(aElement, duration, offset = 0) {
                 target = $('[name=' + anchor + ']');
             }
             if (typeof target !== 'undefined') {
+                $scent.releaseZoomOfSmartPhone();
                 $('html, body').animate({scrollTop: target.offset().top + offset}, {duration: duration});
                 return false;
             }
