@@ -22,6 +22,9 @@ $scent = function(onloadFunction) {
 
 /**
  * windowの幅にCSSプロパティを同期する。
+ * 
+ * @param {Element} element 対象の要素
+ * @param {string} cssProperty 対象のCSSプロパティ名
  */
 $scent.bindWindowWidth = function(element, cssProperty) {
     let process = function() {
@@ -33,6 +36,9 @@ $scent.bindWindowWidth = function(element, cssProperty) {
 
 /**
  * windowの高さにCSSプロパティを同期する。
+ * 
+ * @param {Element} element 対象の要素
+ * @param {string} cssProperty 対象のCSSプロパティ名
  */
 $scent.bindWindowHeight = function(element, cssProperty) {
     let process = function() {
@@ -44,6 +50,9 @@ $scent.bindWindowHeight = function(element, cssProperty) {
 
 /**
  * windowの幅と高さを比較して大きい方に画像サイズを合わせる。
+ * 
+ * @param {Element} element 対象の要素
+ * @param {string} cssProperty 対象画像のURL
  */
 $scent.adjustBackgroundImage = function(element, url) {
     $(element).css('background-image', 'url("' + url + '")');
@@ -171,7 +180,7 @@ $scent.setError = function(inputElement, errorMessage) {
 }
 
 /**
- * スマートフォンのズームを解除する。
+ * スマートフォンのピンチズームを解除する。
  */
 $scent.releaseZoomOfSmartPhone = function() {
     let viewport = $('meta[name="viewport"]');
@@ -226,6 +235,22 @@ $scent.makeRelativeURL = function(url) {
 }
 
 /**
+ * 指定された要素までぬるぬるスクロールする。
+ * 
+ * @param {Element} element 対象の要素
+ * @param {integer} duration アニメーションの時間の長さ(ミリ秒)
+ * @param {integer} offset オフセット
+ */
+$scent.smoothScroll = function(element, duration, offset = 0) {
+    let target = $(element);
+    if (typeof target !== 'undefined') {
+        $scent.releaseZoomOfSmartPhone();
+        $('html, body').animate({scrollTop: target.offset().top + offset}, {duration: duration});
+        return false;
+    }
+}
+
+/**
  * ページ内ジャンプのaに対してぬるぬるスクロールを有効にする。
  * 
  * @param {Element} aElement 有効にする対象のa
@@ -243,11 +268,7 @@ $scent.enableSmoothScroll = function(aElement, duration, offset = 0) {
             if (typeof target === 'undefined') {
                 target = $('[name=' + anchor + ']');
             }
-            if (typeof target !== 'undefined') {
-                $scent.releaseZoomOfSmartPhone();
-                $('html, body').animate({scrollTop: target.offset().top + offset}, {duration: duration});
-                return false;
-            }
+            return $scent.smoothScroll(target, duration, offset);
         }
     });
 }
